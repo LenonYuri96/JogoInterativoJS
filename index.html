@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Quest — Hub dos Mundos</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --neon-cyan: #00f0ff;
+      --neon-yellow: #ffe600;
+      --neon-green: #39ff14;
+      --card-bg: #0f172a;
+    }
+
+    body {
+      background-color: #07090e !important;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+    }
+
+    /* HERO BANNER */
+    .hero-banner {
+      background: radial-gradient(circle at center, #1e293b 0%, #080d1a 100%);
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    /* CARDS DOS MUNDOS */
+    .world-card {
+      background: var(--card-bg);
+      border: 2px solid #334155;
+      border-radius: 14px;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .world-card.active-world {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+    }
+
+    .world-card.active-world:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.45);
+      border-color: var(--neon-yellow);
+    }
+
+    .world-card.locked-world {
+      opacity: 0.6;
+      border-color: #1e293b;
+      filter: grayscale(0.5);
+    }
+
+    .world-icon-badge {
+      width: 58px;
+      height: 58px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      background: #1e293b;
+      border: 1px solid #475569;
+    }
+
+    .pulse-play {
+      animation: pulseBtn 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulseBtn {
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 5px rgba(57, 255, 20, 0.4);
+      }
+
+      50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 16px rgba(57, 255, 20, 0.8);
+      }
+    }
+  </style>
+</head>
+
+<body class="text-light min-vh-100 d-flex flex-column">
+
+  <!-- NAVBAR / HUD PRINCIPAL -->
+  <header class="navbar navbar-dark bg-black border-bottom border-secondary px-3 py-2 sticky-top shadow-sm">
+    <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-warning text-dark p-2 fs-6"><i class="bi bi-controller"></i> JS QUEST</span>
+        <span class="fw-bold text-light fs-5">Mapa das Ilhas do JavaScript</span>
+      </div>
+
+      <!-- STATUS GLOBAL DO JOGADOR -->
+      <div class="d-flex align-items-center gap-3">
+        <div class="badge bg-warning text-dark fs-6 px-3 py-2 shadow-sm" id="global-xp">
+          <i class="bi bi-lightning-charge-fill"></i> 0 XP Global
+        </div>
+        <button class="btn btn-outline-danger btn-sm" id="btn-reset-data" title="Reiniciar progresso salvo">
+          <i class="bi bi-arrow-counterclockwise"></i> Resetar Save
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL: MAPA DOS 7 MUNDOS -->
+  <main class="container my-4 flex-grow-1">
+
+    <!-- HERO: BOAS-VINDAS DO ROBÔ BIT -->
+    <div class="hero-banner p-4 p-md-5 mb-4 text-center">
+      <div class="d-inline-block bg-dark rounded-circle p-3 border border-info mb-3">
+        <span class="fs-1">🤖</span>
+      </div>
+      <h1 class="display-6 fw-bold text-warning font-monospace">Bem-vindo à Jornada do Motor JS!</h1>
+      <p class="col-lg-8 mx-auto text-secondary fs-6">
+        Aprenda JavaScript com feedback visual em tempo real, simulações de memória RAM, duelos arcade e o robô mentor
+        <strong>Bit</strong> te guiando passo a passo.
+      </p>
+      <div class="d-flex justify-content-center gap-3 mt-3">
+        <a href="mundo1.html" class="btn btn-success btn-lg fw-bold font-monospace px-4 py-2 pulse-play"
+          id="hero-cta-btn">
+          <i class="bi bi-play-circle-fill"></i> JOGAR MUNDO 1 AGORA
+        </a>
+      </div>
+    </div>
+
+    <!-- TÍTULO DA SEÇÃO -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="text-info fw-bold font-monospace mb-0">
+        <i class="bi bi-map-fill"></i> Selecione um Mundo:
+      </h4>
+      <span class="badge bg-secondary font-monospace" id="worlds-completed-badge">0 / 7 Mundos Concluídos</span>
+    </div>
+
+    <!-- GRID DOS 7 MUNDOS -->
+    <div class="row g-3">
+
+      <!-- MUNDO 1 (DISPONÍVEL / ATIVO) -->
+      <div class="col-lg-4 col-md-6">
+        <div class="world-card active-world p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="world-icon-badge text-warning border-warning">🌱</div>
+            <span class="badge bg-success font-monospace" id="m1-badge">DISPONÍVEL</span>
+          </div>
+          <h5 class="fw-bold text-warning font-monospace mb-1">Mundo 1: Fundamentos</h5>
+          <p class="text-secondary small flex-grow-1">
+            Fábrica de Caixas (Variáveis <code>let</code> e <code>const</code>), Scanner de Tipos
+            (<code>typeof null</code>, <code>NaN</code>), Arena de Luta (<code>==</code> vs <code>===</code>) e
+            Caldeirão de Coerção.
+          </p>
+          <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
+            <span class="text-info small font-monospace" id="m1-status"><i class="bi bi-stars"></i> 4 Atividades
+              Prontas</span>
+            <a href="mundo1.html" class="btn btn-sm btn-info fw-bold font-monospace px-3">
+              Entrar <i class="bi bi-arrow-right-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUNDO 2 (DESBLOQUEADO E ATIVO) -->
+      <div class="col-lg-4 col-md-6">
+        <div class="world-card active-world p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="world-icon-badge text-info border-info">🔁</div>
+            <span class="badge bg-success font-monospace" id="m2-badge">DISPONÍVEL</span>
+          </div>
+          <h5 class="fw-bold text-info font-monospace mb-1">Mundo 2: Condições & Loops</h5>
+          <p class="text-secondary small flex-grow-1">
+            Labirinto do Robô com sequência e condições, Elevador do <code>for</code>, Semáforo lógico de
+            <code>if/else/switch</code> e a Oficina Caça ao Bug.
+          </p>
+          <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
+            <span class="text-info small font-monospace" id="m2-status"><i class="bi bi-stars"></i> 4 Jogos
+              Prontos</span>
+            <a href="mundo2.html" class="btn btn-sm btn-info fw-bold font-monospace px-3">
+              Entrar <i class="bi bi-arrow-right-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUNDO 3 (DESBLOQUEADO E ATIVO) -->
+      <div class="col-lg-4 col-md-6">
+        <div class="world-card active-world p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="world-icon-badge text-primary border-primary">🎁</div>
+            <span class="badge bg-success font-monospace" id="m3-badge">DISPONÍVEL</span>
+          </div>
+          <h5 class="fw-bold text-info font-monospace mb-1">Mundo 3: Funções & Escopo</h5>
+          <p class="text-secondary small flex-grow-1">
+            Máquina de Transformar entradas e saídas (<code>return</code>), Torre dos Escopos e Closures, Call Stack
+            (LIFO) e Fábrica de Arrow Functions.
+          </p>
+          <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
+            <span class="text-info small font-monospace" id="m3-status"><i class="bi bi-stars"></i> 4 Jogos
+              Prontos</span>
+            <a href="mundo3.html" class="btn btn-sm btn-info fw-bold font-monospace px-3">
+              Entrar <i class="bi bi-arrow-right-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUNDO 4 (EM BREVE) -->
+      <div class="col-lg-4 col-md-6">
+        <div class="world-card locked-world p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="world-icon-badge text-success">📦</div>
+            <span class="badge bg-secondary font-monospace"><i class="bi bi-lock-fill"></i> BLOQUEADO</span>
+          </div>
+          <h5 class="fw-bold text-light font-monospace mb-1">Mundo 4: Arrays & Objetos</h5>
+          <p class="text-secondary small flex-grow-1">
+            Trem dos Arrays com vagões animados (<code>push</code>, <code>pop</code>, <code>shift</code>) e a Fábrica de
+            Pizzas com <code>map</code>, <code>filter</code> e <code>reduce</code>.
+          </p>
+          <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
+            <span class="text-muted small font-monospace">Requer Mundo 3</span>
+            <button class="btn btn-sm btn-outline-secondary font-monospace" disabled>Em Breve</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUNDO 5 (EM BREVE) -->
+      <div class="col-lg-4 col-md-6">
+        <div class="world-card locked-world p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="world-icon-badge text-danger">🖱️</div>
+            <span class="badge bg-secondary font-monospace"><i class="bi bi-lock-fill"></i> BLOQUEADO</span>
+          </div>
+          <h5 class="fw-bold text-light font-monospace mb-1">Mundo 5: DOM & Eventos</h5>
+          <p class="text-secondary small flex-grow-1">
+            DOM Dungeon: manipule tags HTML como portas de castelo (<code>querySelector</code>, <code>classList</code>)
+            e crie mini-aplicativos reais.
+          </p>
+          <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
+            <span class="text-muted small font-monospace">Requer Mundo 4</span>
+            <button class="btn btn-sm btn-outline-secondary font-monospace" disabled>Em Breve</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUNDO 6 (EM BREVE) -->
+      <div class="col-lg-4 col-md-6">
+        <div class="world-card locked-world p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="world-icon-badge text-warning">⏳</div>
+            <span class="badge bg-secondary font-monospace"><i class="bi bi-lock-fill"></i> BLOQUEADO</span>
+          </div>
+          <h5 class="fw-bold text-light font-monospace mb-1">Mundo 6: JS Assíncrono</h5>
+          <p class="text-secondary small flex-grow-1">
+            A Cozinha Assíncrona: Event Loop visualizado com panelas e pedidos, Promises, <code>async/await</code> e o
+            jogo Fetch Quest.
+          </p>
+          <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
+            <span class="text-muted small font-monospace">Requer Mundo 5</span>
+            <button class="btn btn-sm btn-outline-secondary font-monospace" disabled>Em Breve</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUNDO 7 (EM BREVE) -->
+      <div class="col-lg-4 col-md-6 mx-auto">
+        <div class="world-card locked-world p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="world-icon-badge text-purple" style="color: #c084fc;">🧠</div>
+            <span class="badge bg-secondary font-monospace"><i class="bi bi-lock-fill"></i> BLOQUEADO</span>
+          </div>
+          <h5 class="fw-bold text-light font-monospace mb-1">Mundo 7: JS Avançado</h5>
+          <p class="text-secondary small flex-grow-1">
+            A Mochila das Closures, a Torre da Prototype Chain, o enigma "Quem é o <code>this</code>?" e o Rio de
+            Expressões Regulares (RegEx).
+          </p>
+          <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
+            <span class="text-muted small font-monospace">Requer Mundo 6</span>
+            <button class="btn btn-sm btn-outline-secondary font-monospace" disabled>Em Breve</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black border-top border-secondary py-3 text-center text-secondary small font-monospace">
+    JS Quest &copy; 2026 — Aprenda JavaScript por Dentro do Motor.
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- SCRIPT DO HUB: LÊ DADOS DO LOCALSTORAGE DE TODOS OS MUNDOS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const globalXpEl = document.getElementById('global-xp');
+      const worldsCompletedBadge = document.getElementById('worlds-completed-badge');
+      const heroCtaBtn = document.getElementById('hero-cta-btn');
+      const btnReset = document.getElementById('btn-reset-data');
+
+      const m1StatusEl = document.getElementById('m1-status');
+      const m1Badge = document.getElementById('m1-badge');
+
+      const m2StatusEl = document.getElementById('m2-status');
+      const m2Badge = document.getElementById('m2-badge');
+
+      const m3StatusEl = document.getElementById('m3-status');
+      const m3Badge = document.getElementById('m3-badge');
+
+      function loadHubData() {
+        const rawV1 = localStorage.getItem('JS_QUEST_DATA_V1');
+        let totalXp = 0;
+        let completedWorlds = [];
+
+        if (rawV1) {
+          try {
+            const data = JSON.parse(rawV1);
+            if (data.xp) totalXp = data.xp;
+            if (Array.isArray(data.completedWorlds)) completedWorlds = data.completedWorlds;
+          } catch (e) {
+            console.error('Erro ao ler progresso:', e);
+          }
+        }
+
+        // 1. Atualiza XP Global no Topo
+        globalXpEl.innerHTML = `<i class="bi bi-lightning-charge-fill"></i> ${totalXp} XP Global`;
+
+        // 2. Atualiza Contador de Mundos Concluídos
+        const completedCount = completedWorlds.length;
+        if (worldsCompletedBadge) {
+          worldsCompletedBadge.textContent = `${completedCount} / 7 Mundos Concluídos`;
+          if (completedCount > 0) {
+            worldsCompletedBadge.className = 'badge bg-success font-monospace';
+          }
+        }
+
+        // 3. Atualiza Card do Mundo 1
+        if (completedWorlds.includes('mundo1')) {
+          if (m1StatusEl) m1StatusEl.innerHTML = `<i class="bi bi-check-circle-fill text-success"></i> CONCLUÍDO (4/4)`;
+          if (m1Badge) {
+            m1Badge.textContent = 'CONCLUÍDO';
+            m1Badge.className = 'badge bg-success font-monospace';
+          }
+        }
+
+        // 4. Atualiza Card do Mundo 2
+        if (completedWorlds.includes('mundo2')) {
+          if (m2StatusEl) m2StatusEl.innerHTML = `<i class="bi bi-check-circle-fill text-success"></i> CONCLUÍDO (4/4)`;
+          if (m2Badge) {
+            m2Badge.textContent = 'CONCLUÍDO';
+            m2Badge.className = 'badge bg-success font-monospace';
+          }
+        }
+
+        // 5. Atualiza Card do Mundo 3
+        if (completedWorlds.includes('mundo3')) {
+          if (m3StatusEl) m3StatusEl.innerHTML = `<i class="bi bi-check-circle-fill text-success"></i> CONCLUÍDO (4/4)`;
+          if (m3Badge) {
+            m3Badge.textContent = 'CONCLUÍDO';
+            m3Badge.className = 'badge bg-success font-monospace';
+          }
+        }
+
+        // 6. Botão Inteligente no Banner Principal
+        if (heroCtaBtn) {
+          if (!completedWorlds.includes('mundo1')) {
+            heroCtaBtn.href = 'mundo1.html';
+            heroCtaBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i> JOGAR MUNDO 1 AGORA';
+          } else if (!completedWorlds.includes('mundo2')) {
+            heroCtaBtn.href = 'mundo2.html';
+            heroCtaBtn.innerHTML = '<i class="bi bi-arrow-right-circle-fill"></i> CONTINUAR: MUNDO 2';
+          } else if (!completedWorlds.includes('mundo3')) {
+            heroCtaBtn.href = 'mundo3.html';
+            heroCtaBtn.innerHTML = '<i class="bi bi-arrow-right-circle-fill"></i> CONTINUAR: MUNDO 3';
+          } else {
+            heroCtaBtn.href = 'mundo1.html';
+            heroCtaBtn.innerHTML = '<i class="bi bi-trophy-fill"></i> REVISAR MUNDOS CONCLUÍDOS';
+          }
+        }
+      }
+
+      // Botão para resetar o progresso
+      btnReset.addEventListener('click', () => {
+        if (confirm('Deseja realmente zerar todo o progresso do jogo salvo no seu navegador?')) {
+          localStorage.clear();
+          loadHubData();
+          alert('Progresso reiniciado com sucesso!');
+        }
+      });
+
+      loadHubData();
+    });
+  </script>
+</body>
+
+</html>

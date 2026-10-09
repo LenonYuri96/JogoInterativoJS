@@ -1,0 +1,337 @@
+:root {
+  --neon-cyan: #00f0ff;
+  --neon-green: #39ff14;
+  --neon-pink: #ff007f;
+  --neon-yellow: #ffe600;
+  --neon-red: #ff3131;
+  --road-dark: #1e2430;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  background-color: #07090e !important;
+  user-select: none;
+}
+
+/* AVATAR DO BIT */
+.guide-character-card {
+  background: #111827;
+  border: 1px solid #374151;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.robot-avatar {
+  font-size: 2.3rem;
+  line-height: 1;
+  background: #1f2937;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.robot-avatar.happy {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 16px var(--neon-green);
+  animation: robotBounce 0.4s infinite alternate;
+}
+
+.robot-avatar.warning {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 16px var(--neon-yellow);
+}
+
+@keyframes robotBounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-7px);
+  }
+}
+
+.speech-bubble {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+/* PALCO DO JOGO */
+.stage-container {
+  background: radial-gradient(circle at center, #0f172a 0%, #05070a 100%);
+  border: 1px solid #1f2937;
+  min-height: 350px;
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+/* ========================================================
+   JOGO 5: LABIRINTO DO ROBÔ
+   ======================================================== */
+.maze-board {
+  display: grid;
+  gap: 4px;
+  background-color: #1e293b;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #3b82f6;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+}
+
+.maze-tile {
+  width: 52px;
+  height: 52px;
+  background-color: #0b1120;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.maze-tile.wall {
+  background-color: #475569 !important;
+  box-shadow: inset 0 0 8px #000;
+}
+
+.maze-tile.wall-hit {
+  background-color: var(--neon-red) !important;
+  box-shadow: 0 0 25px var(--neon-red) !important;
+  animation: wallImpact 0.4s ease;
+}
+
+@keyframes wallImpact {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.maze-tile.target {
+  background-color: rgba(57, 255, 20, 0.15);
+  border: 1px dashed var(--neon-green);
+}
+
+.maze-robot {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: inline-block;
+  filter: drop-shadow(0 0 8px var(--neon-cyan));
+}
+
+.robot-bump {
+  animation: bumpAnim 0.35s ease !important;
+  filter: drop-shadow(0 0 15px var(--neon-red)) !important;
+}
+
+@keyframes bumpAnim {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-6px, -4px) rotate(-10deg);
+  }
+  75% {
+    transform: translate(6px, 4px) rotate(10deg);
+  }
+}
+
+/* ========================================================
+   JOGO 6: ELEVADOR DO FOR
+   ======================================================== */
+.elevator-shaft {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.building-floors {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 4px;
+  width: 220px;
+  background: #0f172a;
+  border: 2px solid #64748b;
+  border-radius: 8px;
+  padding: 6px;
+}
+
+.floor-row {
+  height: 28px;
+  border: 1px dashed #334155;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  font-family: monospace;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+
+.floor-row.active-floor {
+  background: rgba(0, 240, 255, 0.25);
+  border-color: var(--neon-cyan);
+}
+
+.cabin {
+  width: 100px;
+  height: 50px;
+  background: #1e293b;
+  border: 2px solid var(--neon-yellow);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(255, 230, 0, 0.3);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.elevator-shake {
+  animation: elevatorDanger 0.15s infinite alternate !important;
+  border-color: var(--neon-red) !important;
+  box-shadow: 0 0 30px var(--neon-red) !important;
+}
+
+@keyframes elevatorDanger {
+  0% {
+    transform: translate(-4px, 0);
+  }
+  100% {
+    transform: translate(4px, 0);
+  }
+}
+
+/* ========================================================
+   JOGO 7: SEMÁFORO LÓGICO
+   ======================================================== */
+.crossroad-box {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.traffic-light-housing {
+  background: #111827;
+  border: 3px solid #374151;
+  border-radius: 20px;
+  padding: 10px 14px;
+  display: flex;
+  gap: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.light-bulb {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1f2937;
+  border: 2px solid #374151;
+  transition: all 0.3s;
+}
+
+.light-bulb.red.on {
+  background: #ef4444;
+  box-shadow: 0 0 25px #ef4444;
+}
+.light-bulb.yellow.on {
+  background: #eab308;
+  box-shadow: 0 0 25px #eab308;
+}
+.light-bulb.green.on {
+  background: #22c55e;
+  box-shadow: 0 0 25px #22c55e;
+}
+
+.road-simulation {
+  width: 100%;
+  height: 100px;
+  background: var(--road-dark);
+  border-radius: 12px;
+  border: 2px dashed #4b5563;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  overflow: hidden;
+}
+
+.traffic-car {
+  font-size: 2.2rem;
+  transition: transform 0.5s ease;
+}
+
+.car-driving {
+  transform: translateX(200px);
+}
+
+/* ========================================================
+   JOGO 8: CAÇA AO BUG DO LOOP
+   ======================================================== */
+.workshop-bay {
+  width: 100%;
+  max-width: 480px;
+  background: #0b1120;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.smoke-alarm {
+  animation: smokeAlarm 0.4s infinite alternate;
+  border-color: var(--neon-red) !important;
+  box-shadow: 0 0 30px var(--neon-red) !important;
+}
+
+@keyframes smokeAlarm {
+  0% {
+    background: #0b1120;
+  }
+  100% {
+    background: #3b0707;
+  }
+}
+
+.command-chip {
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+#code-input {
+  min-height: 120px;
+  resize: vertical;
+  font-size: 0.9rem;
+}

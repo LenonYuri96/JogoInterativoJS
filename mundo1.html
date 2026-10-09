@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Quest — Mundo 1: Variáveis, Tipos e Operadores</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/mundo1.css">
+</head>
+
+<body class="bg-dark text-light min-vh-100 d-flex flex-column">
+
+    <!-- HUD SUPERIOR -->
+    <header class="navbar navbar-dark bg-black border-bottom border-secondary px-3 py-2 sticky-top shadow-sm">
+        <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <a href="index.html" class="btn btn-outline-secondary btn-sm" title="Voltar ao Mapa dos Mundos">
+                    <i class="bi bi-house-door-fill"></i>
+                </a>
+                <span class="badge bg-warning text-dark p-2 fs-6"><i class="bi bi-cpu-fill"></i> MUNDO 1</span>
+                <span class="fw-bold text-warning fs-5">Variáveis, Tipos e Operadores</span>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-warning btn-sm fw-bold shadow-sm" id="btn-explain-logic">
+                    <i class="bi bi-lightbulb-fill"></i> 💡 Como Funciona?
+                </button>
+                <div class="badge bg-warning text-dark fs-6 px-3 py-2 shadow-sm" id="hud-xp">
+                    <i class="bi bi-lightning-charge-fill"></i> 0 XP
+                </div>
+                <button class="btn btn-outline-info btn-sm" data-bs-toggle="offcanvas" data-bs-target="#docsOffcanvas">
+                    <i class="bi bi-journal-code"></i> Manual
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SELETOR DAS 4 ATIVIDADES DO MUNDO 1 -->
+    <nav class="bg-black bg-opacity-75 border-bottom border-secondary py-2 px-3">
+        <div class="container-fluid d-flex gap-2 overflow-auto" id="phase-nav"></div>
+    </nav>
+
+    <!-- PALCO PRINCIPAL -->
+    <main class="container-fluid px-3 px-md-4 my-3 flex-grow-1">
+        <div class="row g-3">
+
+            <!-- LADO ESQUERDO: PALCO VISUAL (CAIXAS / SCANNER / ARENA ARCADE / FORNALHA) -->
+            <div class="col-xl-7 col-lg-6">
+                <div class="card bg-black border-secondary h-100 shadow d-flex flex-column">
+
+                    <div
+                        class="card-header border-secondary d-flex justify-content-between align-items-center bg-dark bg-opacity-50">
+                        <span class="badge bg-info text-dark font-monospace fw-bold" id="activity-id">ATIVIDADE 1</span>
+                        <h6 class="card-title mb-0 text-info fw-bold font-monospace" id="activity-title">Fábrica de
+                            Caixas</h6>
+                        <span class="badge bg-success" id="mission-step">Missão 1/3</span>
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-3">
+
+                        <!-- GUIA BIT -->
+                        <div class="guide-character-card mb-3 p-3 rounded d-flex align-items-start gap-3">
+                            <div class="robot-avatar-wrapper text-center">
+                                <div class="robot-avatar" id="robot-avatar">🤖</div>
+                                <span class="badge bg-secondary font-monospace mt-1" id="robot-mood">Bit (Mentor)</span>
+                            </div>
+                            <div class="speech-bubble flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <strong class="text-warning small"><i class="bi bi-chat-dots-fill"></i> Orientação
+                                        do Bit:</strong>
+                                    <button class="btn btn-sm btn-link text-info text-decoration-none p-0 fw-bold"
+                                        id="btn-auto-solve" title="Restaura o modelo sugerido">
+                                        <i class="bi bi-magic"></i> Restaurar Código
+                                    </button>
+                                </div>
+                                <div class="speech-text text-light small" id="guide-speech">
+                                    Carregando atividade...
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PALCO DO SIMULADOR -->
+                        <div id="game-stage"
+                            class="stage-container flex-grow-1 rounded d-flex flex-column justify-content-center align-items-center position-relative p-3">
+                        </div>
+
+                        <!-- NOVA BARRA DE VITÓRIA DA MISSÃO (APARECE SEM BLOQUEAR O PALCO) -->
+                        <div id="mission-success-bar"
+                            class="alert alert-success d-none d-flex flex-wrap justify-content-between align-items-center my-2 p-2 border-success shadow">
+                            <span class="fw-bold font-monospace text-dark fs-6">
+                                <i class="bi bi-check-circle-fill text-success"></i> Missão Concluída com Sucesso! (+100
+                                XP)
+                            </span>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-dark font-monospace fw-bold"
+                                    id="btn-success-explain">
+                                    <i class="bi bi-lightbulb-fill"></i> Ver Explicação
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success font-monospace fw-bold shadow px-3"
+                                    id="btn-success-next">
+                                    Próxima Missão ➔
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- TABELA DE RAM (STACK / HEAP) -->
+                        <div class="mt-3 bg-dark bg-opacity-75 border border-secondary rounded p-2">
+                            <div
+                                class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-1 mb-2 font-monospace small">
+                                <span class="text-info"><i class="bi bi-memory"></i> INSPEÇÃO DE MEMÓRIA RAM (STACK /
+                                    HEAP)</span>
+                                <span class="text-muted" id="ram-count">0 Variáveis Alocadas</span>
+                            </div>
+                            <div class="table-responsive" style="max-height: 110px; overflow-y: auto;">
+                                <table class="table table-dark table-sm table-bordered font-monospace small mb-0">
+                                    <thead>
+                                        <tr class="text-secondary">
+                                            <th>Endereço</th>
+                                            <th>Identificador</th>
+                                            <th>Declaração</th>
+                                            <th>Tipo</th>
+                                            <th>Valor na Memória</th>
+                                            <th>Cadeado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ram-table-body">
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted fst-italic">Memória vazia.
+                                                Insira código para alocar slots.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- LADO DIREITO: CHIPS & EDITOR DE CÓDIGO -->
+            <div class="col-xl-5 col-lg-6">
+                <div class="card bg-black border-secondary h-100 shadow d-flex flex-column">
+
+                    <div
+                        class="card-header border-secondary d-flex justify-content-between align-items-center bg-dark bg-opacity-50">
+                        <span class="fw-bold font-monospace text-warning small">
+                            <i class="bi bi-terminal-split"></i> SEU CÓDIGO (EDITÁVEL)
+                        </span>
+                        <button class="btn btn-outline-warning btn-sm py-0 px-2 font-monospace" id="btn-clear-code"
+                            title="Limpar editor">
+                            <i class="bi bi-trash"></i> Limpar
+                        </button>
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-3">
+
+                        <!-- BLOCOS SUGERIDOS -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-info small font-monospace mb-0">
+                                    <i class="bi bi-puzzle"></i> Blocos Desta Etapa (clique para aplicar no editor):
+                                </label>
+                                <small class="text-muted">Editável</small>
+                            </div>
+                            <div class="command-deck d-flex flex-column gap-2" id="command-deck"></div>
+                        </div>
+
+                        <!-- EDITOR REAL -->
+                        <div class="mb-2 flex-grow-1 d-flex flex-column">
+                            <label class="form-label text-secondary small font-monospace mb-1">
+                                Altere valores, tipos e operadores livremente:
+                            </label>
+                            <textarea id="code-input"
+                                class="form-control font-monospace flex-grow-1 text-light bg-black border-secondary"
+                                spellcheck="false" placeholder="// Digite instruções JS aqui..."></textarea>
+                        </div>
+
+                        <!-- BOTÕES DE AÇÃO -->
+                        <div class="d-flex gap-2 mb-2">
+                            <button class="btn btn-success flex-grow-1 fw-bold font-monospace shadow" id="btn-run-game">
+                                <i class="bi bi-play-circle-fill"></i> EXECUTAR NO RAIO-X ▶
+                            </button>
+                            <button class="btn btn-danger font-monospace px-3" id="btn-stop-game" title="Parar execução"
+                                disabled>
+                                <i class="bi bi-stop-fill"></i>
+                            </button>
+                        </div>
+
+                        <!-- TERMINAL -->
+                        <div id="v8-terminal"
+                            class="bg-black border border-secondary rounded p-2 font-monospace text-light small overflow-auto"
+                            style="height: 95px;">
+                            <span class="text-secondary">> Simulador pronto. Modifique o código e execute para ver o
+                                comportamento do motor V8.</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL: EXPLICAÇÃO + BOTÃO DE AVANÇO -->
+    <div class="modal fade" id="modalExplanation" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark border-warning text-light shadow-lg">
+                <div class="modal-header border-secondary bg-black">
+                    <h5 class="modal-title text-warning fw-bold d-flex align-items-center gap-2">
+                        <span class="fs-4">💡</span> O Bit Explica: Como Funciona por Dentro
+                    </h5>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="p-3 rounded mb-3 bg-secondary bg-opacity-25 border border-secondary">
+                        <h6 class="text-info fw-bold mb-2"><i class="bi bi-diagram-3-fill"></i> 1. Cenário e
+                            Comportamento Visual:</h6>
+                        <p class="fs-6 mb-0 text-light" id="explain-scenario-text"></p>
+                    </div>
+                    <div class="p-3 rounded mb-3 bg-primary bg-opacity-10 border border-primary">
+                        <h6 class="text-warning fw-bold mb-2"><i class="bi bi-cpu-fill"></i> 2. O Que o Motor JavaScript
+                            Executou:</h6>
+                        <p class="small mb-0 text-light" id="explain-engine-text"></p>
+                    </div>
+                    <div class="p-3 rounded bg-success bg-opacity-15 border border-success">
+                        <h6 class="text-success fw-bold mb-1"><i class="bi bi-check-all"></i> 3. Regra de Lógica:</h6>
+                        <div class="fs-6 fw-bold text-white font-monospace" id="explain-rule-text"></div>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary bg-black d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary font-monospace" data-bs-dismiss="modal">
+                        Revisar Código
+                    </button>
+                    <button type="button" class="btn btn-success fw-bold font-monospace px-4 shadow"
+                        id="btn-modal-next-mission">
+                        Avançar para a Próxima Missão ➔
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE VITÓRIA FINAL DO MUNDO 1 🏆 -->
+    <div class="modal fade" id="modalWorldVictory" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-black border-success text-light text-center p-4 shadow-lg">
+                <div class="mb-2">
+                    <span class="fs-1">🏆</span>
+                </div>
+                <h3 class="fw-bold text-success font-monospace mb-1">MUNDO 1 CONCLUÍDO!</h3>
+                <p class="text-secondary small mb-3">Você dominou Variáveis (let/const), Mutabilidade, Tipos de Dados
+                    (typeof/NaN), Arena de Comparação (== vs ===) e Coerção Implícita!</p>
+
+                <div class="d-flex justify-content-center gap-2 mb-3">
+                    <span class="badge bg-warning text-dark fs-6 px-3 py-2 font-monospace" id="victory-xp-badge">
+                        <i class="bi bi-lightning-charge-fill"></i> +400 XP Ganho
+                    </span>
+                    <span class="badge bg-info text-dark fs-6 px-3 py-2 font-monospace">
+                        <i class="bi bi-award-fill"></i> Mestre dos Fundamentos
+                    </span>
+                </div>
+
+                <div class="d-flex flex-column gap-2 mt-2">
+                    <a href="index.html" class="btn btn-success btn-lg fw-bold font-monospace shadow">
+                        <i class="bi bi-map-fill"></i> Voltar ao Mapa dos Mundos ➔
+                    </a>
+                    <button type="button" class="btn btn-outline-secondary font-monospace btn-sm"
+                        data-bs-dismiss="modal">
+                        Continuar no Simulador para Praticar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OFFCANVAS: MANUAL -->
+    <div class="offcanvas offcanvas-end bg-dark text-light border-secondary" tabindex="-1" id="docsOffcanvas">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title text-warning font-monospace"><i class="bi bi-journal-code"></i> Manual Técnico do
+                Mundo 1</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body font-monospace small" id="manual-content"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/mundo1-model.js"></script>
+    <script src="./js/mundo1-view.js"></script>
+    <script src="./js/mundo1-controller.js"></script>
+    <script src="./js/mundo1-app.js"></script>
+</body>
+
+</html>

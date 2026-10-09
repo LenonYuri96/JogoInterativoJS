@@ -1,0 +1,462 @@
+:root {
+  --neon-cyan: #00f0ff;
+  --neon-green: #39ff14;
+  --neon-pink: #ff007f;
+  --neon-yellow: #ffe600;
+  --neon-red: #ff3131;
+  --purple-glue: #a855f7;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  background-color: #07090e !important;
+  user-select: none;
+}
+
+/* AVATAR DO BIT */
+.guide-character-card {
+  background: #111827;
+  border: 1px solid #374151;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.robot-avatar {
+  font-size: 2.3rem;
+  line-height: 1;
+  background: #1f2937;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.robot-avatar.happy {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 16px var(--neon-green);
+  animation: robotBounce 0.4s infinite alternate;
+}
+
+.robot-avatar.warning {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 16px var(--neon-yellow);
+}
+
+@keyframes robotBounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-7px);
+  }
+}
+
+.speech-bubble {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+/* PALCO DO RAIO-X */
+.stage-container {
+  background: radial-gradient(circle at center, #0f172a 0%, #05070a 100%);
+  border: 1px solid #1f2937;
+  min-height: 350px;
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+/* SCREEN SHAKE */
+.screen-shake {
+  animation: shakeFx 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shakeFx {
+  10%,
+  90% {
+    transform: translate3d(-3px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(5px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-6px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(6px, 0, 0);
+  }
+}
+
+/* ========================================================
+   ATIVIDADE 1: CAIXAS DE MEMÓRIA
+   ======================================================== */
+.ram-slot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.physical-box {
+  width: 145px;
+  min-height: 135px;
+  background: #0f172a;
+  border: 2px solid var(--neon-cyan);
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.physical-box.is-const {
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.25);
+}
+
+.box-header {
+  background: #1e293b;
+  padding: 5px 8px;
+  font-size: 0.75rem;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box-payload {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: monospace;
+  color: #fff;
+  padding: 8px;
+  text-align: center;
+}
+
+.shake-box {
+  animation: shake 0.4s ease-in-out;
+  border-color: var(--neon-red) !important;
+  box-shadow: 0 0 30px var(--neon-red) !important;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-10px) rotate(-3deg);
+  }
+  40%,
+  80% {
+    transform: translateX(10px) rotate(3deg);
+  }
+}
+
+/* ========================================================
+   ATIVIDADE 2: SCANNER DE TIPOS
+   ======================================================== */
+.scanner-box {
+  background: #0b1120;
+  border: 2px solid var(--neon-green);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.25);
+}
+
+.scan-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--neon-green);
+  box-shadow: 0 0 12px var(--neon-green);
+  animation: laserSweep 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes laserSweep {
+  0% {
+    top: 8%;
+    opacity: 0.3;
+  }
+  100% {
+    top: 92%;
+    opacity: 1;
+  }
+}
+
+/* ========================================================
+   ATIVIDADE 3: ARENA ARCADE DOS OPERADORES 🥊
+   ======================================================== */
+.arcade-arena {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.arena-ring-floor {
+  background: linear-gradient(180deg, #1e293b 0%, #090d16 100%);
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  padding: 16px;
+  position: relative;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+}
+
+.fighters-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 140px;
+}
+
+.fighter-card {
+  width: 140px;
+  background: #0f172a;
+  border: 2px solid #475569;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.fighter-card.active-punch {
+  transform: translateX(35px) scale(1.1);
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 25px var(--neon-yellow);
+}
+
+.fighter-card.hit-damage {
+  animation: hitShake 0.4s;
+  border-color: var(--neon-red);
+  background: #2d1217;
+}
+
+@keyframes hitShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(15px);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+}
+
+.fighter-card.shield-up {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 30px var(--neon-cyan);
+}
+
+.fighter-avatar {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.fighter-token {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #1e293b;
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin-top: 4px;
+}
+
+.hp-bar-outer {
+  width: 100%;
+  height: 8px;
+  background: #334155;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.hp-bar-inner {
+  height: 100%;
+  background: var(--neon-green);
+  transition:
+    width 0.4s ease,
+    background-color 0.4s;
+}
+
+.hp-bar-inner.low {
+  background: var(--neon-red);
+}
+
+.versus-center {
+  text-align: center;
+  position: relative;
+}
+
+.impact-badge {
+  font-size: 1.1rem;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 6px;
+  animation: popBadge 0.3s ease;
+}
+
+@keyframes popBadge {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.arcade-action-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ========================================================
+   ATIVIDADE 4: CALDEIRÃO & COERÇÃO 🧪
+   ======================================================== */
+.alchemical-lab {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chamber-vat {
+  background: #0b1120;
+  border: 2px solid #6366f1;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+}
+
+.flask-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.chemical-flask {
+  width: 105px;
+  min-height: 95px;
+  background: #1e293b;
+  border: 2px solid var(--neon-cyan);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  font-size: 1.3rem;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.chemical-flask.broken-glass {
+  animation: glassCrack 0.6s forwards;
+}
+
+@keyframes glassCrack {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15) rotate(5deg);
+    border-color: #f97316;
+  }
+  100% {
+    transform: scale(1);
+    background: #f59e0b;
+    border-color: #fff;
+    color: #000;
+  }
+}
+
+.chemical-flask.glue-merge {
+  animation: glueFuse 0.6s forwards;
+}
+
+@keyframes glueFuse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+    background: var(--purple-glue);
+  }
+  100% {
+    transform: scale(1);
+    background: #7c3aed;
+    border-color: #fff;
+  }
+}
+
+.vat-operator-core {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--neon-yellow);
+}
+
+.lab-controls-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.command-chip {
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+#code-input {
+  min-height: 120px;
+  resize: vertical;
+  font-size: 0.9rem;
+}
