@@ -214,40 +214,46 @@
         </div>
       </div>
 
-      <!-- MUNDO 4 (EM BREVE) -->
+      <!-- MUNDO 4 (DISPONÍVEL E ATIVO) -->
       <div class="col-lg-4 col-md-6">
-        <div class="world-card locked-world p-3">
+        <div class="world-card active-world p-3">
           <div class="d-flex justify-content-between align-items-start mb-2">
-            <div class="world-icon-badge text-success">📦</div>
-            <span class="badge bg-secondary font-monospace"><i class="bi bi-lock-fill"></i> BLOQUEADO</span>
+            <div class="world-icon-badge text-success border-success">📦</div>
+            <span class="badge bg-success font-monospace" id="m4-badge">DISPONÍVEL</span>
           </div>
-          <h5 class="fw-bold text-light font-monospace mb-1">Mundo 4: Arrays & Objetos</h5>
+          <h5 class="fw-bold text-success font-monospace mb-1">Mundo 4: Arrays & Objetos</h5>
           <p class="text-secondary small flex-grow-1">
-            Trem dos Arrays com vagões animados (<code>push</code>, <code>pop</code>, <code>shift</code>) e a Fábrica de
-            Pizzas com <code>map</code>, <code>filter</code> e <code>reduce</code>.
+            Trem dos Arrays com vagões animados (<code>push</code>, <code>shift</code>, <code>splice</code>), Fábrica de
+            Pizzas (<code>map</code>, <code>filter</code>, <code>reduce</code>), Vila dos Objetos e JSON Jungle.
           </p>
           <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
-            <span class="text-muted small font-monospace">Requer Mundo 3</span>
-            <button class="btn btn-sm btn-outline-secondary font-monospace" disabled>Em Breve</button>
+            <span class="text-info small font-monospace" id="m4-status"><i class="bi bi-stars"></i> 4 Jogos
+              Prontos</span>
+            <a href="mundo4.html" class="btn btn-sm btn-info fw-bold font-monospace px-3">
+              Entrar <i class="bi bi-arrow-right-circle-fill"></i>
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- MUNDO 5 (EM BREVE) -->
+      <!-- MUNDO 5 (DISPONÍVEL E ATIVO) -->
       <div class="col-lg-4 col-md-6">
-        <div class="world-card locked-world p-3">
+        <div class="world-card active-world p-3">
           <div class="d-flex justify-content-between align-items-start mb-2">
-            <div class="world-icon-badge text-danger">🖱️</div>
-            <span class="badge bg-secondary font-monospace"><i class="bi bi-lock-fill"></i> BLOQUEADO</span>
+            <div class="world-icon-badge text-danger border-danger">🖱️</div>
+            <span class="badge bg-success font-monospace" id="m5-badge">DISPONÍVEL</span>
           </div>
-          <h5 class="fw-bold text-light font-monospace mb-1">Mundo 5: DOM & Eventos</h5>
+          <h5 class="fw-bold text-danger font-monospace mb-1">Mundo 5: DOM & Eventos</h5>
           <p class="text-secondary small flex-grow-1">
-            DOM Dungeon: manipule tags HTML como portas de castelo (<code>querySelector</code>, <code>classList</code>)
-            e crie mini-aplicativos reais.
+            DOM Dungeon com castelo interativo (<code>querySelector</code>, <code>classList</code>), Caça aos Eventos
+            (<code>addEventListener</code>) e o Construtor de Miniapps funcionais.
           </p>
           <div class="border-top border-secondary pt-3 mt-2 d-flex justify-content-between align-items-center">
-            <span class="text-muted small font-monospace">Requer Mundo 4</span>
-            <button class="btn btn-sm btn-outline-secondary font-monospace" disabled>Em Breve</button>
+            <span class="text-info small font-monospace" id="m5-status"><i class="bi bi-stars"></i> 3 Jogos
+              Prontos</span>
+            <a href="mundo5.html" class="btn btn-sm btn-info fw-bold font-monospace px-3">
+              Entrar <i class="bi bi-arrow-right-circle-fill"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -387,6 +393,28 @@
             heroCtaBtn.href = 'mundo1.html';
             heroCtaBtn.innerHTML = '<i class="bi bi-trophy-fill"></i> REVISAR MUNDOS CONCLUÍDOS';
           }
+        }
+      }
+
+      const m4StatusEl = document.getElementById('m4-status');
+      const m4Badge = document.getElementById('m4-badge');
+
+      if (completedWorlds.includes('mundo4')) {
+        if (m4StatusEl) m4StatusEl.innerHTML = `<i class="bi bi-check-circle-fill text-success"></i> CONCLUÍDO (4/4)`;
+        if (m4Badge) {
+          m4Badge.textContent = 'CONCLUÍDO';
+          m4Badge.className = 'badge bg-success font-monospace';
+        }
+      }
+
+      const m5StatusEl = document.getElementById('m5-status');
+      const m5Badge = document.getElementById('m5-badge');
+
+      if (completedWorlds.includes('mundo5')) {
+        if (m5StatusEl) m5StatusEl.innerHTML = `<i class="bi bi-check-circle-fill text-success"></i> CONCLUÍDO (3/3)`;
+        if (m5Badge) {
+          m5Badge.textContent = 'CONCLUÍDO';
+          m5Badge.className = 'badge bg-success font-monospace';
         }
       }
 

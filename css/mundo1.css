@@ -1,10 +1,39 @@
+/* ==========================================================================
+   JS QUEST — MUNDO 1: VARIÁVEIS, TIPOS, OPERADORES
+   ========================================================================== */
+
 :root {
   --neon-cyan: #00f0ff;
   --neon-green: #39ff14;
   --neon-pink: #ff007f;
   --neon-yellow: #ffe600;
   --neon-red: #ff3131;
-  --purple-glue: #a855f7;
+  --neon-purple: #a855f7;
+
+  --bg-base: #07090e;
+  --bg-stage: #05070a;
+  --bg-panel: #0b1120;
+  --bg-surface: #111827;
+  --bg-surface-2: #1e293b;
+  --bg-elevated: #1f2937;
+
+  --border-soft: #1f2937;
+  --border-mid: #374151;
+  --border-strong: #4b5563;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
@@ -15,23 +44,163 @@ body {
     "Segoe UI",
     Roboto,
     sans-serif;
-  background-color: #07090e !important;
+  background-color: var(--bg-base) !important;
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
   user-select: none;
+  overflow-x: hidden;
 }
 
-/* AVATAR DO BIT */
+p,
+code,
+pre,
+input,
+textarea,
+.box-payload,
+.fighter-token,
+.speech-bubble,
+.impact-badge,
+.vat-operator-core {
+  user-select: text;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+legend,
+td,
+th,
+p,
+small,
+strong,
+em,
+span {
+  color: inherit;
+}
+
+a {
+  color: var(--neon-cyan);
+}
+a:hover {
+  color: #7df9ff;
+}
+
+/* Bootstrap: garante texto claro em painéis escuros */
+.card,
+.card-body,
+.modal-content,
+.offcanvas,
+.dropdown-menu,
+.list-group-item,
+.accordion-item,
+.accordion-button,
+.alert,
+.toast,
+.popover,
+.tooltip-inner {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   MODAIS — TEMA DARK (o Bootstrap deixa branco por padrão)
+   ========================================================================== */
+.modal-content {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+.modal-header {
+  border-bottom: 1px solid var(--border-mid);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+}
+.modal-title {
+  color: var(--text-primary);
+}
+.modal-body {
+  color: var(--text-secondary);
+}
+.modal-footer {
+  border-top: 1px solid var(--border-mid);
+  background: var(--bg-elevated);
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+.modal-backdrop.show {
+  opacity: 0.7;
+}
+
+/* Botão X do Bootstrap é preto por padrão — inverter para branco */
+.btn-close {
+  filter: invert(1) grayscale(1) brightness(1.6);
+  opacity: 0.8;
+}
+.btn-close:hover {
+  opacity: 1;
+}
+
+/* Botões Bootstrap em geral */
+.btn-primary {
+  background: #0ea5e9;
+  border-color: #0ea5e9;
+  color: #fff;
+}
+.btn-success {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+.btn-danger {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+.btn-warning {
+  background: var(--neon-yellow);
+  border-color: var(--neon-yellow);
+  color: #111;
+}
+.btn-outline-light:hover {
+  color: #111;
+}
+
+button:focus-visible,
+.btn:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   AVATAR DO BIT
+   ========================================================================== */
 .guide-character-card {
-  background: #111827;
-  border: 1px solid #374151;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-md);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
+  padding: clamp(0.6rem, 2vw, 0.9rem);
 }
 
 .robot-avatar {
-  font-size: 2.3rem;
+  font-size: clamp(1.8rem, 5vw, 2.3rem);
   line-height: 1;
-  background: #1f2937;
-  width: 58px;
-  height: 58px;
+  background: var(--bg-elevated);
+  width: clamp(46px, 12vw, 58px);
+  height: clamp(46px, 12vw, 58px);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -39,19 +208,17 @@ body {
   border: 2px solid var(--neon-cyan);
   box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
-
 .robot-avatar.happy {
   border-color: var(--neon-green);
   box-shadow: 0 0 16px var(--neon-green);
   animation: robotBounce 0.4s infinite alternate;
 }
-
 .robot-avatar.warning {
   border-color: var(--neon-yellow);
   box-shadow: 0 0 16px var(--neon-yellow);
 }
-
 @keyframes robotBounce {
   0% {
     transform: translateY(0);
@@ -62,27 +229,32 @@ body {
 }
 
 .speech-bubble {
-  background: #1f2937;
-  border: 1px solid #4b5563;
-  border-radius: 8px;
-  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  padding: 0.65rem 0.9rem;
+  font-size: clamp(0.85rem, 2.2vw, 0.95rem);
 }
 
-/* PALCO DO RAIO-X */
+/* ==========================================================================
+   PALCO
+   ========================================================================== */
 .stage-container {
   background: radial-gradient(circle at center, #0f172a 0%, #05070a 100%);
-  border: 1px solid #1f2937;
-  min-height: 350px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  min-height: clamp(280px, 55vh, 380px);
+  padding: clamp(0.9rem, 3vw, 1.5rem);
   overflow: hidden;
   box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
   position: relative;
+  color: var(--text-primary);
 }
 
-/* SCREEN SHAKE */
 .screen-shake {
   animation: shakeFx 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
-
 @keyframes shakeFx {
   10%,
   90% {
@@ -103,28 +275,33 @@ body {
   }
 }
 
-/* ========================================================
+/* ==========================================================================
    ATIVIDADE 1: CAIXAS DE MEMÓRIA
-   ======================================================== */
+   ========================================================================== */
 .ram-slot-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: clamp(0.6rem, 2vw, 1rem);
+  justify-items: center;
   width: 100%;
 }
 
 .physical-box {
-  width: 145px;
-  min-height: 135px;
-  background: #0f172a;
+  width: 100%;
+  max-width: 170px;
+  min-height: 130px;
+  background: var(--bg-surface);
   border: 2px solid var(--neon-cyan);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   position: relative;
   box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
   display: flex;
   flex-direction: column;
+  color: var(--text-primary);
+  transition:
+    transform 0.2s,
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .physical-box.is-const {
@@ -133,13 +310,19 @@ body {
 }
 
 .box-header {
-  background: #1e293b;
-  padding: 5px 8px;
-  font-size: 0.75rem;
-  border-bottom: 1px solid #334155;
+  background: var(--bg-surface-2);
+  padding: 0.35rem 0.5rem;
+  font-size: clamp(0.68rem, 1.8vw, 0.75rem);
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-mid);
+  border-top-left-radius: calc(var(--radius-md) - 2px);
+  border-top-right-radius: calc(var(--radius-md) - 2px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.4rem;
 }
 
 .box-payload {
@@ -147,12 +330,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-  font-weight: bold;
-  font-family: monospace;
-  color: #fff;
-  padding: 8px;
+  font-size: clamp(1rem, 3.5vw, 1.3rem);
+  font-weight: 700;
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  color: var(--text-primary);
+  padding: 0.5rem;
   text-align: center;
+  word-break: break-word;
 }
 
 .shake-box {
@@ -160,7 +344,6 @@ body {
   border-color: var(--neon-red) !important;
   box-shadow: 0 0 30px var(--neon-red) !important;
 }
-
 @keyframes shake {
   0%,
   100% {
@@ -176,18 +359,21 @@ body {
   }
 }
 
-/* ========================================================
+/* ==========================================================================
    ATIVIDADE 2: SCANNER DE TIPOS
-   ======================================================== */
+   ========================================================================== */
 .scanner-box {
-  background: #0b1120;
+  background: var(--bg-panel);
   border: 2px solid var(--neon-green);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: var(--radius-lg);
+  padding: clamp(1rem, 3vw, 1.25rem);
   max-width: 460px;
   width: 100%;
+  margin-inline: auto;
   text-align: center;
+  color: var(--text-primary);
   position: relative;
+  overflow: hidden;
   box-shadow: 0 0 25px rgba(57, 255, 20, 0.25);
 }
 
@@ -200,8 +386,8 @@ body {
   background: var(--neon-green);
   box-shadow: 0 0 12px var(--neon-green);
   animation: laserSweep 1.5s infinite alternate ease-in-out;
+  pointer-events: none;
 }
-
 @keyframes laserSweep {
   0% {
     top: 8%;
@@ -213,22 +399,24 @@ body {
   }
 }
 
-/* ========================================================
-   ATIVIDADE 3: ARENA ARCADE DOS OPERADORES 🥊
-   ======================================================== */
+/* ==========================================================================
+   ATIVIDADE 3: ARENA ARCADE DOS OPERADORES
+   ========================================================================== */
 .arcade-arena {
   width: 100%;
   max-width: 580px;
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
+  color: var(--text-primary);
 }
 
 .arena-ring-floor {
-  background: linear-gradient(180deg, #1e293b 0%, #090d16 100%);
+  background: linear-gradient(180deg, var(--bg-surface-2) 0%, #090d16 100%);
   border: 2px solid #3b82f6;
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: var(--radius-lg);
+  padding: clamp(0.75rem, 3vw, 1rem);
   position: relative;
   box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
 }
@@ -237,32 +425,33 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: clamp(0.5rem, 2vw, 1rem);
   min-height: 140px;
 }
 
 .fighter-card {
-  width: 140px;
-  background: #0f172a;
-  border: 2px solid #475569;
-  border-radius: 10px;
-  padding: 10px;
+  flex: 1 1 0;
+  max-width: 160px;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: clamp(0.5rem, 2vw, 0.75rem);
   text-align: center;
+  color: var(--text-primary);
   position: relative;
   transition: all 0.3s ease;
 }
 
 .fighter-card.active-punch {
-  transform: translateX(35px) scale(1.1);
+  transform: translateX(20px) scale(1.08);
   border-color: var(--neon-yellow);
   box-shadow: 0 0 25px var(--neon-yellow);
 }
-
 .fighter-card.hit-damage {
   animation: hitShake 0.4s;
   border-color: var(--neon-red);
   background: #2d1217;
 }
-
 @keyframes hitShake {
   0%,
   100% {
@@ -275,36 +464,38 @@ body {
     transform: translateX(-10px);
   }
 }
-
 .fighter-card.shield-up {
   border-color: var(--neon-cyan);
   box-shadow: 0 0 30px var(--neon-cyan);
 }
 
 .fighter-avatar {
-  font-size: 2.4rem;
+  font-size: clamp(1.8rem, 6vw, 2.4rem);
   line-height: 1;
 }
 
 .fighter-token {
-  font-family: monospace;
-  font-size: 1.1rem;
-  font-weight: bold;
-  background: #1e293b;
-  border-radius: 6px;
-  padding: 2px 6px;
-  margin-top: 4px;
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: clamp(0.85rem, 2.4vw, 1.05rem);
+  font-weight: 700;
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 0.15rem 0.4rem;
+  margin-top: 0.25rem;
+  display: inline-block;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 .hp-bar-outer {
   width: 100%;
   height: 8px;
-  background: #334155;
+  background: var(--border-mid);
   border-radius: 4px;
   overflow: hidden;
-  margin-top: 6px;
+  margin-top: 0.4rem;
 }
-
 .hp-bar-inner {
   height: 100%;
   background: var(--neon-green);
@@ -312,24 +503,23 @@ body {
     width 0.4s ease,
     background-color 0.4s;
 }
-
 .hp-bar-inner.low {
   background: var(--neon-red);
 }
 
 .versus-center {
   text-align: center;
-  position: relative;
+  flex-shrink: 0;
 }
 
 .impact-badge {
-  font-size: 1.1rem;
+  display: inline-block;
+  font-size: clamp(0.85rem, 2.5vw, 1.05rem);
   font-weight: 900;
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
   animation: popBadge 0.3s ease;
 }
-
 @keyframes popBadge {
   0% {
     transform: scale(0.3);
@@ -341,29 +531,32 @@ body {
   }
 }
 
-.arcade-action-bar {
+.arcade-action-bar,
+.lab-controls-bar {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-/* ========================================================
-   ATIVIDADE 4: CALDEIRÃO & COERÇÃO 🧪
-   ======================================================== */
+/* ==========================================================================
+   ATIVIDADE 4: CALDEIRÃO & COERÇÃO
+   ========================================================================== */
 .alchemical-lab {
   width: 100%;
   max-width: 580px;
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0.9rem;
+  color: var(--text-primary);
 }
 
 .chamber-vat {
-  background: #0b1120;
+  background: var(--bg-panel);
   border: 2px solid #6366f1;
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: var(--radius-lg);
+  padding: clamp(0.75rem, 3vw, 1rem);
   min-height: 170px;
   display: flex;
   align-items: center;
@@ -375,31 +568,37 @@ body {
 .flask-row {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  flex-wrap: wrap;
   position: relative;
+  width: 100%;
 }
 
 .chemical-flask {
-  width: 105px;
-  min-height: 95px;
-  background: #1e293b;
+  width: clamp(80px, 22vw, 105px);
+  min-height: clamp(75px, 20vw, 95px);
+  background: var(--bg-surface-2);
   border: 2px solid var(--neon-cyan);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: monospace;
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-weight: 700;
   position: relative;
   transition: all 0.4s ease;
+  word-break: break-word;
+  padding: 0.4rem;
+  text-align: center;
 }
 
 .chemical-flask.broken-glass {
   animation: glassCrack 0.6s forwards;
 }
-
 @keyframes glassCrack {
   0% {
     transform: scale(1);
@@ -412,51 +611,113 @@ body {
     transform: scale(1);
     background: #f59e0b;
     border-color: #fff;
-    color: #000;
+    color: #111;
   }
 }
 
 .chemical-flask.glue-merge {
   animation: glueFuse 0.6s forwards;
 }
-
 @keyframes glueFuse {
   0% {
     transform: scale(1);
   }
   50% {
     transform: scale(1.15);
-    background: var(--purple-glue);
+    background: var(--neon-purple);
   }
   100% {
     transform: scale(1);
-    background: #7c3aed;
+    background: #6d28d9;
     border-color: #fff;
+    color: #fff;
   }
 }
 
 .vat-operator-core {
-  font-size: 1.8rem;
-  font-weight: bold;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-weight: 700;
   color: var(--neon-yellow);
 }
 
-.lab-controls-bar {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 .command-chip {
-  background: #111827;
-  border: 1px solid #374151;
-  border-radius: 8px;
-  padding: 8px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.75rem;
+  color: var(--text-primary);
+  font-size: clamp(0.78rem, 2vw, 0.9rem);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.command-chip:hover {
+  border-color: var(--neon-cyan);
+  background: var(--bg-elevated);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
 }
 
 #code-input {
   min-height: 120px;
   resize: vertical;
-  font-size: 0.9rem;
+  font-size: clamp(0.82rem, 2vw, 0.9rem);
+  width: 100%;
+  background: #030712;
+  color: var(--text-primary);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-md);
+  padding: 0.6rem;
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  line-height: 1.45;
+  caret-color: var(--neon-cyan);
+}
+#code-input::placeholder {
+  color: var(--text-muted);
+}
+#code-input:focus {
+  outline: 1px solid var(--neon-cyan);
+  outline-offset: -1px;
+}
+
+/* ==========================================================================
+   RESPONSIVO
+   ========================================================================== */
+@media (max-width: 576px) {
+  .stage-container {
+    border-radius: var(--radius-md);
+    padding: 0.8rem;
+  }
+  .physical-box {
+    max-width: 100%;
+  }
+  .fighters-row {
+    min-height: 120px;
+  }
+  .fighter-card {
+    padding: 0.4rem;
+  }
+  .fighter-card.active-punch {
+    transform: translateX(10px) scale(1.05);
+  }
+  .arcade-action-bar .btn,
+  .lab-controls-bar .btn {
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .stage-container {
+    max-width: 1100px;
+    margin-inline: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
